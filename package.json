@@ -4,6 +4,7 @@
   "description": "Express router autodoc",
   "main": "index.js",
   "scripts": {
+    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- test",
     "jshint": "./node_modules/.bin/jshint .",
     "mocha": "./node_modules/.bin/mocha test",
     "test": "npm run-script mocha && npm run-script jshint"
@@ -25,6 +26,7 @@
   "homepage": "https://github.com/allevo/express-climber",
   "dependencies": {
     "express": "^4.13.3",
+    "istanbul": "^0.3.18",
     "lodash": "3.10.1"
   },
   "devDependencies": {
