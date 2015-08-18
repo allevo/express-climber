@@ -1,0 +1,34 @@
+{
+  "name": "express-climber",
+  "version": "1.0.0",
+  "description": "Express router autodoc",
+  "main": "index.js",
+  "scripts": {
+    "jshint": "./node_modules/.bin/jshint .",
+    "mocha": "./node_modules/.bin/mocha test",
+    "test": "npm run-script mocha && npm run-script jshint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/allevo/express-climber.git"
+  },
+  "keywords": [
+    "express",
+    "route",
+    "list"
+  ],
+  "author": "allevo",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/allevo/express-climber/issues"
+  },
+  "homepage": "https://github.com/allevo/express-climber",
+  "dependencies": {
+    "express": "^4.13.3",
+    "lodash": "3.10.1"
+  },
+  "devDependencies": {
+    "jshint": "^2.8.0",
+    "mocha": "^2.2.5"
+  }
+}
