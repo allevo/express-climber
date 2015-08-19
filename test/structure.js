@@ -12,59 +12,104 @@ function middleware1(req, res, next) { doNothing(req, res, next); }
 function middleware2(req, res, next) { doNothing(req, res, next); }
 function middleware3(req, res, next) { doNothing(req, res, next); }
 
+function getFooHandle(req, res) { doNothing(req, res); }
+function postFooHandle(req, res) { doNothing(req, res); }
+function deleteBarHandle(req, res) { doNothing(req, res); }
+
+var postFooData = {
+  description: undefined,
+  long_description: undefined,
+  name: 'postFooHandle',
+};
+var getFooData = {
+  description: undefined,
+  long_description: undefined,
+  name: 'getFooHandle',
+};
+var deleteBarData = {
+  description: undefined,
+  long_description: undefined,
+  name: 'deleteBarHandle',
+};
+var middleware1Data = {
+  description: undefined,
+  long_description: undefined,
+  name: 'middleware1',
+};
+var middleware2Data = {
+  description: undefined,
+  long_description: undefined,
+  name: 'middleware2',
+};
+var middleware3Data = {
+  description: undefined,
+  long_description: undefined,
+  name: 'middleware3',
+};
+var queryData = {
+  description: undefined,
+  long_description: undefined,
+  name: 'query',
+};
+var expressInitData = {
+  description: undefined,
+  long_description: undefined,
+  name: 'expressInit',
+};
+
 describe('structure', function () {
   describe('router', function () {
     it('simple', function() {
       var router = new Router();
-      router.get('/foo', function getFooHandle(req, res) { doNothing(req, res); });
-      router.post('/foo', function postFooHandle(req, res) { doNothing(req, res); });
-      router.delete('/bar', function deleteBarHandle(req, res) { doNothing(req, res); });
+      router.get('/foo', getFooHandle);
+      router.post('/foo', postFooHandle);
+      router.delete('/bar', deleteBarHandle);
 
       var structure = climber.getAsStructure(router);
       var expected = {
         '/foo': {
-          get: { name: 'getFooHandle', middlewares: [] },
-          post: { name: 'postFooHandle', middlewares: [] },
+          get: { name: getFooData, middlewares: [] },
+          post: { name: postFooData, middlewares: [] },
         },
         '/bar': {
-          delete: { name: 'deleteBarHandle', middlewares: [] },
+          delete: { name: deleteBarData, middlewares: [] },
         },
       };
-      assert.deepEqual(expected, structure);
+      assert.deepEqual(structure, expected);
     });
 
     it('with middleware', function() {
       var router = new Router();
-      router.get('/foo', middleware1, middleware2, function getFooHandle(req, res) { doNothing(req, res); });
-      router.post('/foo', middleware3, middleware1, function postFooHandle(req, res) { doNothing(req, res); });
+      router.get('/foo', middleware1, middleware2, getFooHandle);
+      router.post('/foo', middleware3, middleware1, postFooHandle);
 
       var structure = climber.getAsStructure(router);
       var expected = {
         '/foo': {
-          get: { name: 'getFooHandle', middlewares: ['middleware1', 'middleware2'] },
-          post: { name: 'postFooHandle', middlewares: ['middleware3', 'middleware1'] },
+          get: { name: getFooData, middlewares: [middleware1Data, middleware2Data] },
+          post: { name: postFooData, middlewares: [middleware3Data, middleware1Data] },
         },
       };
-      assert.deepEqual(expected, structure);
+      assert.deepEqual(structure, expected);
     });
 
     it('with router middleware', function() {
       var router = new Router();
       router.use(middleware1);
-      router.get('/foo', middleware2, function getFooHandle(req, res) { doNothing(req, res); });
-      router.post('/foo', middleware3, function postFooHandle(req, res) { doNothing(req, res); });
+      router.get('/foo', middleware2, getFooHandle);
+      router.post('/foo', middleware3, postFooHandle);
 
       var structure = climber.getAsStructure(router);
       var expected = {
         '/': {
-          get: { middlewares: ['middleware1'] },
-          post: { middlewares: ['middleware1'] },
-          put: { middlewares: ['middleware1'] },
-          delete: { middlewares: ['middleware1'] },
+          get: { middlewares: [middleware1Data] },
+          post: { middlewares: [middleware1Data] },
+          put: { middlewares: [middleware1Data] },
+          delete: { middlewares: [middleware1Data] },
         },
         '/foo': {
-          get: { name: 'getFooHandle', middlewares: ['middleware2'] },
-          post: { name: 'postFooHandle', middlewares: ['middleware3'] },
+          get: { name: getFooData, middlewares: [middleware2Data] },
+          post: { name: postFooData, middlewares: [middleware3Data] },
         },
       };
       assert.deepEqual(expected, structure);
@@ -74,8 +119,8 @@ describe('structure', function () {
       var router = new Router();
       var childRouter = new Router();
 
-      childRouter.get('/foo', middleware1, middleware2, function getFooHandle(req, res) { doNothing(req, res); });
-      childRouter.post('/foo', middleware3, middleware1, function postFooHandle(req, res) { doNothing(req, res); });
+      childRouter.get('/foo', middleware1, middleware2, getFooHandle);
+      childRouter.post('/foo', middleware3, middleware1, postFooHandle);
 
       router.use(childRouter);
 
@@ -84,17 +129,17 @@ describe('structure', function () {
         '/foo': {
           get: {
             middlewares: [
-              'middleware1',
-              'middleware2'
+              middleware1Data,
+              middleware2Data
             ],
-            name: 'getFooHandle'
+            name: getFooData
           },
           post: {
             middlewares: [
-              'middleware3',
-              'middleware1'
+              middleware3Data,
+              middleware1Data
             ],
-            name: 'postFooHandle'
+            name: postFooData
           }
         }
       };
@@ -105,8 +150,8 @@ describe('structure', function () {
       var router = new Router();
       var childRouter = new Router();
 
-      childRouter.get('/foo', middleware2, function getFooHandle(req, res) { doNothing(req, res); });
-      childRouter.post('/foo', middleware3, function postFooHandle(req, res) { doNothing(req, res); });
+      childRouter.get('/foo', middleware2, getFooHandle);
+      childRouter.post('/foo', middleware3, postFooHandle);
 
       router.use(middleware1, childRouter);
 
@@ -115,37 +160,37 @@ describe('structure', function () {
         '/': {
           delete: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           },
           get: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           },
           post: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           },
           put: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           }
         },
         '/foo': {
           get: {
             middlewares: [
-              'middleware2'
+              middleware2Data
             ],
-            name: 'getFooHandle'
+            name: getFooData
           },
           post: {
             middlewares: [
-              'middleware3'
+              middleware3Data
             ],
-            name: 'postFooHandle'
+            name: postFooData
           }
         }
       };
@@ -157,8 +202,8 @@ describe('structure', function () {
       var childRouter = new Router();
 
       childRouter.use(middleware1);
-      childRouter.get('/foo', middleware2, function getFooHandle(req, res) { doNothing(req, res); });
-      childRouter.post('/foo', middleware3, function postFooHandle(req, res) { doNothing(req, res); });
+      childRouter.get('/foo', middleware2, getFooHandle);
+      childRouter.post('/foo', middleware3, postFooHandle);
 
       router.use(childRouter);
 
@@ -167,37 +212,37 @@ describe('structure', function () {
         '/': {
           delete: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           },
           get: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           },
           post: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           },
           put: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           }
         },
         '/foo': {
           get: {
             middlewares: [
-              'middleware2'
+              middleware2Data
             ],
-            name: 'getFooHandle'
+            name: getFooData
           },
           post: {
             middlewares: [
-              'middleware3'
+              middleware3Data
             ],
-            name: 'postFooHandle'
+            name: postFooData
           }
         }
       };
@@ -210,8 +255,8 @@ describe('structure', function () {
       var childRouter = new Router();
 
       childRouter.use(middleware1);
-      childRouter.get('/foo', middleware2, function getFooHandle(req, res) { doNothing(req, res); });
-      childRouter.post('/foo', middleware3, function postFooHandle(req, res) { doNothing(req, res); });
+      childRouter.get('/foo', middleware2, getFooHandle);
+      childRouter.post('/foo', middleware3, postFooHandle);
 
       router.use('/sub', childRouter);
 
@@ -220,44 +265,44 @@ describe('structure', function () {
         '/sub': {
           delete: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           },
           get: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           },
           post: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           },
           put: {
             middlewares: [
-              'middleware1'
+              middleware1Data
             ]
           }
         },
         '/sub/foo': {
           get: {
             middlewares: [
-              'middleware2'
+              middleware2Data
             ],
-            name: 'getFooHandle'
+            name: getFooData
           },
           post: {
             middlewares: [
-              'middleware3'
+              middleware3Data
             ],
-            name: 'postFooHandle'
+            name: postFooData
           }
         }
       };
       assert.deepEqual(expected, structure);
     });
 
-    it('with adescription', function() {
+    it('with a description', function() {
       var router = new Router();
       function handle(req, res) { doNothing(req, res); }
       handle.description = 'this is the description';
@@ -270,9 +315,17 @@ describe('structure', function () {
         '/foo': {
           get: {
             middlewares: [
-              mid.description
+              {
+                description: mid.description,
+                long_description: undefined,
+                name: 'mid',
+              }
             ],
-            name: handle.description
+            name: {
+              description: handle.description,
+              long_description: undefined,
+              name: 'handle',
+            }
           },
         }
       };
@@ -293,7 +346,11 @@ describe('structure', function () {
         '/foo': {
           get: {
             middlewares: [ ],
-            name: handle.description
+            name: {
+              description: handle.description,
+              long_description: undefined,
+              name: 'handle',
+            }
           },
         }
       };
@@ -304,40 +361,40 @@ describe('structure', function () {
   describe('app', function () {
     it('simple', function() {
       var app = express();
-      app.get('/foo', function getFooHandle(req, res) { doNothing(req, res); });
+      app.get('/foo', getFooHandle);
 
       var structure = climber.getAsStructure(app);
       var expected = {
         '/': {
           delete: {
             middlewares: [
-              'query',
-              'expressInit',
+              queryData,
+              expressInitData,
             ],
           },
           get: {
             middlewares: [
-              'query',
-              'expressInit',
+              queryData,
+              expressInitData,
             ],
           },
           post: {
             middlewares: [
-              'query',
-              'expressInit',
+              queryData,
+              expressInitData,
             ],
           },
           put: {
             middlewares: [
-              'query',
-              'expressInit',
+              queryData,
+              expressInitData,
             ],
           },
         },
         '/foo': {
           get: {
             middlewares: [],
-            name: 'getFooHandle'
+            name: getFooData
           },
         },
       };
