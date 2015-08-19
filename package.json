@@ -25,10 +25,10 @@
   },
   "homepage": "https://github.com/allevo/express-climber",
   "dependencies": {
-    "express": "^4.13.3",
     "lodash": "3.10.1"
   },
   "devDependencies": {
+    "express": "^4.13.3",
     "istanbul": "^0.3.18",
     "jshint": "^2.8.0",
     "mocha": "^2.2.5"

@@ -256,6 +256,28 @@ describe('structure', function () {
       };
       assert.deepEqual(expected, structure);
     });
+
+    it('with adescription', function() {
+      var router = new Router();
+      function handle(req, res) { doNothing(req, res); }
+      handle.description = 'this is the description';
+      function mid(req, res, next) { doNothing(req, res, next); }
+      mid.description = 'should validate the request';
+      router.get('/foo', mid, handle);
+
+      var structure = climber.getAsStructure(router);
+      var expected = {
+        '/foo': {
+          get: {
+            middlewares: [
+              mid.description
+            ],
+            name: handle.description
+          },
+        }
+      };
+      assert.deepEqual(structure, expected);
+    });
   });
 
   describe('app', function () {
