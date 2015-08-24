@@ -7,6 +7,7 @@
     "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- test",
     "jshint": "./node_modules/.bin/jshint .",
     "mocha": "./node_modules/.bin/mocha test",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "test": "npm run-script mocha && npm run-script jshint"
   },
   "repository": {
@@ -28,9 +29,11 @@
     "lodash": "3.10.1"
   },
   "devDependencies": {
+    "coveralls": "^2.11.4",
     "express": "^4.13.3",
     "istanbul": "^0.3.18",
     "jshint": "^2.8.0",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "mocha-lcov-reporter": "0.0.2"
   }
 }
