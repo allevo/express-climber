@@ -5,57 +5,23 @@ var express = require('express');
 var Router = express.Router;
 
 var climber = require('..');
+var helper = require('./helper');
 
-function doNothing() { }
-
-function middleware1(req, res, next) { doNothing(req, res, next); }
-function middleware2(req, res, next) { doNothing(req, res, next); }
-function middleware3(req, res, next) { doNothing(req, res, next); }
-
-function getFooHandle(req, res) { doNothing(req, res); }
-function postFooHandle(req, res) { doNothing(req, res); }
-function deleteBarHandle(req, res) { doNothing(req, res); }
-
-var postFooData = {
-  description: undefined,
-  long_description: undefined,
-  name: 'postFooHandle',
-};
-var getFooData = {
-  description: undefined,
-  long_description: undefined,
-  name: 'getFooHandle',
-};
-var deleteBarData = {
-  description: undefined,
-  long_description: undefined,
-  name: 'deleteBarHandle',
-};
-var middleware1Data = {
-  description: undefined,
-  long_description: undefined,
-  name: 'middleware1',
-};
-var middleware2Data = {
-  description: undefined,
-  long_description: undefined,
-  name: 'middleware2',
-};
-var middleware3Data = {
-  description: undefined,
-  long_description: undefined,
-  name: 'middleware3',
-};
-var queryData = {
-  description: undefined,
-  long_description: undefined,
-  name: 'query',
-};
-var expressInitData = {
-  description: undefined,
-  long_description: undefined,
-  name: 'expressInit',
-};
+var doNothing = helper.doNothing;
+var middleware1 = helper.middleware1;
+var middleware2 = helper.middleware2;
+var middleware3 = helper.middleware3;
+var getFooHandle = helper.getFooHandle;
+var postFooHandle = helper.postFooHandle;
+var deleteBarHandle = helper.deleteBarHandle;
+var postFooData = helper.postFooData;
+var getFooData = helper.getFooData;
+var deleteBarData = helper.deleteBarData;
+var middleware1Data = helper.middleware1Data;
+var middleware2Data = helper.middleware2Data;
+var middleware3Data = helper.middleware3Data;
+var queryData = helper.queryData;
+var expressInitData = helper.expressInitData;
 
 describe('structure', function () {
   describe('router', function () {
@@ -301,7 +267,7 @@ describe('structure', function () {
       assert.deepEqual(expected, structure);
     });
 
-    it.only('with a middlewared subrouter and route', function() {
+    it('with a middlewared subrouter and route', function() {
       var router = new Router();
       var childRouter = new Router();
 
