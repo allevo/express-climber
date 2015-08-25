@@ -301,6 +301,57 @@ describe('structure', function () {
       assert.deepEqual(expected, structure);
     });
 
+    it.only('with a middlewared subrouter and route', function() {
+      var router = new Router();
+      var childRouter = new Router();
+
+      childRouter.get('/foo', middleware2, getFooHandle);
+
+      router.use('/sub', middleware1, childRouter);
+      router.get('/foo', getFooHandle);
+
+      var structure = climber.getAsStructure(router);
+      var expected = {
+        '/foo': {
+          get: {
+            middlewares: [ ],
+            name: getFooData
+          },
+        },
+        '/sub': {
+          delete: {
+            middlewares: [
+              middleware1Data
+            ]
+          },
+          get: {
+            middlewares: [
+              middleware1Data
+            ]
+          },
+          post: {
+            middlewares: [
+              middleware1Data
+            ]
+          },
+          put: {
+            middlewares: [
+              middleware1Data
+            ]
+          }
+        },
+        '/sub/foo': {
+          get: {
+            middlewares: [
+              middleware2Data
+            ],
+            name: getFooData
+          },
+        }
+      };
+      assert.deepEqual(expected, structure);
+    });
+
     it('with a description', function() {
       var router = new Router();
       function handle(req, res) { doNothing(req, res); }
