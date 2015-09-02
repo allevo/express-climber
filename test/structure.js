@@ -53,30 +53,30 @@ describe('express-climber', function () {
       },
       structure: {
         '/foo': {
-          get: { name: getFooData, middlewares: [] },
-          post: { name: postFooData, middlewares: [] },
+          get: { handle: getFooData, middlewares: [] },
+          post: { handle: postFooData, middlewares: [] },
         },
         '/bar': {
-          delete: { name: deleteBarData, middlewares: [] },
+          delete: { handle: deleteBarData, middlewares: [] },
         },
       },
       array: [
         {
           method: 'get',
           middlewares: [],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
         {
           method: 'post',
           middlewares: [],
-          name: postFooData,
+          handle: postFooData,
           url: '/foo',
         },
         {
           method: 'delete',
           middlewares: [],
-          name: deleteBarData,
+          handle: deleteBarData,
           url: '/bar',
         },
       ],
@@ -98,21 +98,21 @@ describe('express-climber', function () {
           delete: { middlewares: [middleware1Data] },
         },
         '/foo': {
-          get: { name: getFooData, middlewares: [middleware2Data] },
-          post: { name: postFooData, middlewares: [middleware3Data] },
+          get: { handle: getFooData, middlewares: [middleware2Data] },
+          post: { handle: postFooData, middlewares: [middleware3Data] },
         },
       },
       array: [
         {
           method: 'get',
           middlewares: [middleware1Data, middleware2Data ],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
         {
           method: 'post',
           middlewares: [middleware1Data, middleware3Data ],
-          name: postFooData,
+          handle: postFooData,
           url: '/foo',
         }
       ],
@@ -136,14 +136,14 @@ describe('express-climber', function () {
               middleware1Data,
               middleware2Data
             ],
-            name: getFooData
+            handle: getFooData
           },
           post: {
             middlewares: [
               middleware3Data,
               middleware1Data
             ],
-            name: postFooData
+            handle: postFooData
           }
         }
       },
@@ -151,13 +151,13 @@ describe('express-climber', function () {
         {
           method: 'get',
           middlewares: [ middleware1Data, middleware2Data ],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
         {
           method: 'post',
           middlewares: [ middleware3Data, middleware1Data ],
-          name: postFooData,
+          handle: postFooData,
           url: '/foo',
         },
       ],
@@ -185,11 +185,11 @@ describe('express-climber', function () {
         '/foo': {
           get: {
             middlewares: [ middleware2Data ],
-            name: getFooData
+            handle: getFooData
           },
           post: {
             middlewares: [ middleware3Data ],
-            name: postFooData
+            handle: postFooData
           }
         }
       },
@@ -197,13 +197,13 @@ describe('express-climber', function () {
         {
           method: 'get',
           middlewares: [ middleware1Data, middleware2Data ],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
         {
           method: 'post',
           middlewares: [ middleware1Data, middleware3Data ],
-          name: postFooData,
+          handle: postFooData,
           url: '/foo',
         },
       ],
@@ -231,11 +231,11 @@ describe('express-climber', function () {
         '/foo': {
           get: {
             middlewares: [ middleware2Data ],
-            name: getFooData
+            handle: getFooData
           },
           post: {
             middlewares: [ middleware3Data ],
-            name: postFooData
+            handle: postFooData
           }
         }
       },
@@ -243,13 +243,13 @@ describe('express-climber', function () {
         {
           method: 'get',
           middlewares: [ middleware1Data, middleware2Data ],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
         {
           method: 'post',
           middlewares: [ middleware1Data, middleware3Data ],
-          name: postFooData,
+          handle: postFooData,
           url: '/foo',
         },
       ],
@@ -277,11 +277,11 @@ describe('express-climber', function () {
         '/sub/foo': {
           get: {
             middlewares: [ middleware2Data ],
-            name: getFooData
+            handle: getFooData
           },
           post: {
             middlewares: [ middleware3Data ],
-            name: postFooData
+            handle: postFooData
           }
         }
       },
@@ -289,13 +289,13 @@ describe('express-climber', function () {
         {
           method: 'get',
           middlewares: [ middleware1Data, middleware2Data ],
-          name: getFooData,
+          handle: getFooData,
           url: '/sub/foo',
         },
         {
           method: 'post',
           middlewares: [ middleware1Data, middleware3Data ],
-          name: postFooData,
+          handle: postFooData,
           url: '/sub/foo',
         },
       ],
@@ -317,7 +317,7 @@ describe('express-climber', function () {
         '/foo': {
           get: {
             middlewares: [ ],
-            name: getFooData
+            handle: getFooData
           },
         },
         '/sub': {
@@ -329,7 +329,7 @@ describe('express-climber', function () {
         '/sub/foo': {
           get: {
             middlewares: [ middleware2Data ],
-            name: getFooData
+            handle: getFooData
           },
         }
       },
@@ -337,13 +337,13 @@ describe('express-climber', function () {
         {
           method: 'get',
           middlewares: [ middleware1Data, middleware2Data ],
-          name: getFooData,
+          handle: getFooData,
           url: '/sub/foo',
         },
         {
           method: 'get',
           middlewares: [],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
       ],
@@ -369,7 +369,7 @@ describe('express-climber', function () {
                 name: 'mid',
               }
             ],
-            name: {
+            handle: {
               description: 'this is the description',
               long_description: undefined,
               name: 'handle',
@@ -387,7 +387,7 @@ describe('express-climber', function () {
               name: 'mid',
             },
           ],
-          name: {
+          handle: {
             description: 'this is the description',
             long_description: undefined,
             name: 'handle',
@@ -412,7 +412,7 @@ describe('express-climber', function () {
         '/foo': {
           get: {
             middlewares: [ ],
-            name: {
+            handle: {
               description: 'this is the description',
               long_description: undefined,
               name: 'handle',
@@ -424,7 +424,7 @@ describe('express-climber', function () {
         {
           method: 'get',
           middlewares: [],
-          name: {
+          handle: {
             description: 'this is the description',
             long_description: undefined,
             name: 'handle',
@@ -444,19 +444,19 @@ describe('express-climber', function () {
         '/foo': {
           delete: {
             middlewares: [ middleware1Data ],
-            name: getFooData
+            handle: getFooData
           },
           get: {
             middlewares: [ middleware1Data ],
-            name: getFooData
+            handle: getFooData
           },
           post: {
             middlewares: [ middleware1Data ],
-            name: getFooData
+            handle: getFooData
           },
           put: {
             middlewares: [ middleware1Data ],
-            name: getFooData
+            handle: getFooData
           },
         }
       },
@@ -464,25 +464,25 @@ describe('express-climber', function () {
         {
           method: 'get',
           middlewares: [ middleware1Data ],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
         {
           method: 'post',
           middlewares: [ middleware1Data ],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
         {
           method: 'delete',
           middlewares: [ middleware1Data ],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
         {
           method: 'put',
           middlewares: [ middleware1Data ],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
       ],
@@ -506,7 +506,7 @@ describe('express-climber', function () {
         '/foo': {
           get: {
             middlewares: [],
-            name: getFooData
+            handle: getFooData
           },
         },
       },
@@ -514,7 +514,7 @@ describe('express-climber', function () {
         {
           method: 'get',
           middlewares: [ queryData, expressInitData ],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
       ],
@@ -540,13 +540,13 @@ describe('express-climber', function () {
         '/bar': {
           delete: {
             middlewares: [ middleware3Data ],
-            name: deleteBarData,
+            handle: deleteBarData,
           },
         },
         '/foo': {
           get: {
             middlewares: [],
-            name: getFooData
+            handle: getFooData
           },
         },
       },
@@ -554,13 +554,13 @@ describe('express-climber', function () {
         {
           method: 'get',
           middlewares: [ queryData, expressInitData, middleware2Data, middleware1Data ],
-          name: getFooData,
+          handle: getFooData,
           url: '/foo',
         },
         {
           method: 'delete',
           middlewares: [ queryData, expressInitData, middleware2Data, middleware1Data, middleware3Data ],
-          name: deleteBarData,
+          handle: deleteBarData,
           url: '/bar',
         },
       ],
